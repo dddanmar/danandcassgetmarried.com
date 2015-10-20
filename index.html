@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+    <head>
+        <title>Dan and Cass Get Married.com</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js" ></script>
+        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Waiting+for+the+Sunrise' rel='stylesheet' type='text/css'>
+            <style>
+                html {
+                    width:100%;
+                    height:100%;
+                    background:url(front.jpg) center center no-repeat;
+                }
+            </style>
+            <style>
+                body {
+                    font-family: 'Roboto', sans-serif;
+                }
+                *{margin:0;padding:0;}
+		#overlay {
+		    display: none;
+		}
+                #open-overlay{ /* open the overlay */
+                    font-family: 'Waiting for the Sunrise', cursive;
+                    padding:10px 5px;
+                    background:black;
+                    color:white;
+                    text-decoration:none;
+                    display:block; /* SET THIS TO BLOCK TO VIEW */
+		    right: 0px;
+		    margin-top: 10px;
+		    margin-right: 10px;
+                    -webkit-border-radius:10px;
+                    -moz-border-radius:10px;
+                    -o-border-radius:10px;
+                    border-radius:10px;
+                    text-align: center;
+                    position: absolute;
+
+                    width: 300px;
+                }
+                #rsvp-button{ /* open the overlay */
+                    font-family: 'Waiting for the Sunrise', cursive;
+                    padding:10px 5px;
+                    background:black;
+                    color:white;
+                    text-decoration:none;
+                    display:inline-block;
+
+
+                    -webkit-border-radius:10px;
+                    -moz-border-radius:10px;
+                    -o-border-radius:10px;
+                    border-radius:10px;
+                    text-align: center;
+                    position: absolute;
+
+                    width: 300px;
+                }
+
+                input[type="text"]:focus {
+                  outline: none;
+                }
+                input[type="text"] {
+		  font-size: 25px;
+                  border: solid 5px #c9c9c9;
+                  transition: border 0.3s;
+                }
+                input[type="text"]:focus,
+                input[type="text"].focus {
+                  border: solid 5px #969696;
+                }
+		h1 { 
+		  margin-top: 40px;
+		  text-align: center;
+		  font-family: 'Waiting for the Sunrise', cursive;
+		}
+            </style>
+            <script>
+                $( document ).ready(function() {
+                $('input:text').focus(
+                    function(){
+                        $(this).val('');
+                    });
+                });
+                function showRSVP() {
+                    document.body.style.background = "#fff";
+         	    var overlay_div = document.getElementById('overlay')           
+		    overlay_div.style.display = "block";
+                }
+		function sendRSVP() {
+			var url = "https://7cdvhecp8j.execute-api.us-east-1.amazonaws.com/prod/rsvp"
+
+			$.ajax({
+				  type: "POST",
+				  url: url,
+				  data: JSON.stringify({names: $('#names').val(), verb1: $('#verb1').val(), verb2: $('#verb2').val(), adjective1: $("#adjective1").val(), noun1: $('#noun1').val(), noun2: $('#noun2').val(), adjective2: $('#adjective2').val(), willwillnot: $('#willwillnot').val()}),
+				  success: function(data, status){
+                                        alert("Thank you for your RSVP!!");
+					var overlay_div = document.getElementById('overlay');
+					overlay_div.style.display = "none";
+                        },
+				  dataType: 'json' 
+			});
+
+			
+		}
+            </script>
+    </head>
+    <body>
+            <h1><a href="#overlay" id="open-overlay" onclick="showRSVP();">RSVP</a></h1>
+
+        <div id="overlay">
+	    <h1>will you join us for the<br> Best. Day. Ever?</h1>
+            <a href="#" class="close">&times;</a>
+
+
+            <h1>
+
+                When Dan & Cass 
+                    <input value="(verb)" id="verb1" type="text">
+                        down the aisle, <br>
+                    
+                    <input type="text" id="names" value="(guest names)">
+
+                    
+                    <input type="text" id="willwillnot" value="(will / will not)"> be there to 
+                    <input type="text" id="verb2" value="(verb)"> 
+                        with them. 
+                    We are so <br>
+                    <input type="text" id="adjective1" value="(adjective)">
+                        for Dan & Cass! 
+                    We wish them many years of 
+                    <input type="text" id="noun1" value="(noun)">
+                    and <br>
+                    <input type="text" id="noun2" value="(noun)">
+                    in their 
+                    <input type="text" id="adjective2" value="(adjective)">
+                    marriage! <br><br>
+                    <a href="#overlay" onclick="sendRSVP();" id="rsvp-button">Send RSVP</a>
+
+            </h1>
+        </div>
+
+
+
+
+    </body>
+</html>
